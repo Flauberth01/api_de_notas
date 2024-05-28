@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: database_notas
+    image: postgres:16.3-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: notas
+    ports:
+      - "5436:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  api:
+    container_name: api_notas
+    build: .
+    ports:
+      - "8001:8000"
+    depends_on:
+        - db
+    environment:
+        - DATABASE_URL=host=db user=user password=password dbname=notas port=5432
+    restart: on-failure
