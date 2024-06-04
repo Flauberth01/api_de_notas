@@ -35,5 +35,8 @@ func main() {
 	r.Put("/notas/{id}", handlers.AtualizaNota)
 	r.Delete("/notas/{id}", handlers.DeletaNota)
 
-	http.ListenAndServe(":8000", r)
+	err := http.ListenAndServe(":8000", r)
+	if err != nil {
+		return
+	}
 }
